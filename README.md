@@ -1,4 +1,7 @@
 # Learning React Native
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+<hr/>
+
 Notes for learning React Native.
 
 最近因為公司業務需求，開始學習 React Native，當起 Web / Mobile App Developer 斜槓青年。
