@@ -11,6 +11,11 @@
     "type": "git",
     "url": "git+ssh://git@github.com:tristachentw/learning-react-native.git"
   },
+  "pre-commit": {
+    "run": [
+      "lint"
+    ]
+  },
   "author": "Trista Chen",
   "dependencies": {
     "react": "16.5.0",
@@ -26,10 +31,10 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-standard": "^4.0.0",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.47.1",
+    "pre-commit": "^1.2.2",
     "react-test-renderer": "16.5.0"
   },
   "jest": {
