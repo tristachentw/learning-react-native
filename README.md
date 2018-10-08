@@ -11,7 +11,7 @@ Notes for learning React Native.
 ## Study Goals
 
 ### UI
-  - [ ] Drop and drag list item.
+  - [x] Drop and drag list.
   - [ ] Routing and navigation.
   - [ ] I18n by app setting or mobile local language setting.
   - [ ] Oauth Login with Facebook and Google.
