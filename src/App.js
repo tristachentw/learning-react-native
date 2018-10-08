@@ -4,42 +4,71 @@
  */
 
 import React, { Component } from 'react'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Button } from 'react-native-elements'
+import styled from 'styled-components'
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu'
-})
+import HeaderBar from './components/HeaderBar'
+import DropAndDragList from './features/DropAndDragList'
+
+const FEATURE_DROP_AND_DRAG_LIST = 'Example1: Drop And Drag List'
+
+const StyledContainer = styled.View`
+  flex: 1;
+`
+const StyledBody = styled.View`
+  flex: 1;
+`
+const StyledMenuList = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
+const StyledButton = styled(Button).attrs({
+  buttonStyle: {
+    backgroundColor: '#673ab7'
+  }
+})``
 
 export default class App extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      feature: ''
+    }
+    this.getButtonProps = this.getButtonProps.bind(this)
+  }
+
+  setFeature (feature) {
+    this.setState({ feature })
+  }
+
+  getButtonProps (feature) {
+    return {
+      title: feature,
+      onPress: () => {
+        this.setState({ feature })
+      }
+    }
+  }
+
   render () {
+    const { getButtonProps } = this
+    const { feature } = this.state
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+      <StyledContainer>
+        <HeaderBar />
+
+        <StyledBody>
+          { feature === FEATURE_DROP_AND_DRAG_LIST && <DropAndDragList /> }
+
+          { !feature && (
+            <StyledMenuList>
+              <StyledButton {...getButtonProps(FEATURE_DROP_AND_DRAG_LIST)} />
+            </StyledMenuList>
+          )}
+        </StyledBody>
+      </StyledContainer>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
-  }
-})
