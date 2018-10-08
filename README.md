@@ -58,6 +58,8 @@ React Native Environment Info:
   - react-native-cli: 2.0.1
 
 ## Study Notes
+
+### Init App is not working in RN 0.57.1
 When init a new project with react-native then run Android, I'm getting the error:
 
 > error: bundling failed: Error: Unable to resolve module `@babel/runtime/helpers/interopRequireDefault` from `/Users/username/path/index.js`: Module `@babel/runtime/helpers/interopRequireDefault` does not exist in the Haste module map
@@ -70,3 +72,13 @@ npm install --save-dev @babel/runtime
 ```
 This is a known issue, please tracked here: https://github.com/facebook/react-native/issues/21310
 
+### React Native Link
+Something we need to use native capabilities. For this case, we need to add these files to our app, otherwise the app will throw an error.
+
+How to use: [Linking Libraries](https://facebook.github.io/react-native/docs/linking-libraries-ios)
+
+For exapmle: We want to use `react-native-vector-icons`
+```
+# npm i react-native-vector-icons --save
+# react-native link react-native-vector-icons
+```
