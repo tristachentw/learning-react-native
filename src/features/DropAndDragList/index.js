@@ -3,7 +3,7 @@ import faker from 'faker'
 import { ListItem } from 'react-native-elements'
 import SortableList from 'react-native-sortable-list'
 
-import { arrayToObject } from '../../utils/converter'
+import { arrayToObject } from '@root/utils/converter'
 
 const LIST_LENGTH = 50
 const LIST = arrayToObject(Array.from(Array(LIST_LENGTH), (v, i) => ({
