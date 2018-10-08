@@ -9,8 +9,10 @@ import styled from 'styled-components'
 
 import HeaderBar from './components/HeaderBar'
 import DropAndDragList from './features/DropAndDragList'
+import Routing from './features/Routing'
 
 const FEATURE_DROP_AND_DRAG_LIST = 'Example1: Drop And Drag List'
+const FEATURE_ROUTING = 'Example2: Routing'
 
 const StyledContainer = styled.View`
   flex: 1;
@@ -61,10 +63,12 @@ export default class App extends Component {
 
         <StyledBody>
           { feature === FEATURE_DROP_AND_DRAG_LIST && <DropAndDragList /> }
+          { feature === FEATURE_ROUTING && <Routing />}
 
           { !feature && (
             <StyledMenuList>
               <StyledButton {...getButtonProps(FEATURE_DROP_AND_DRAG_LIST)} />
+              <StyledButton {...getButtonProps(FEATURE_ROUTING)} />
             </StyledMenuList>
           )}
         </StyledBody>
