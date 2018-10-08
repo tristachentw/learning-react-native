@@ -1,39 +1,37 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import faker from 'faker'
 import { ListItem } from 'react-native-elements'
+import SortableList from 'react-native-sortable-list'
 
-const LIST = [
-  {
-    id: 1,
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    id: 2,
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  }
-]
+import { arrayToObject } from '../../utils/converter'
+
+const LIST_LENGTH = 50
+const LIST = arrayToObject(Array.from(Array(LIST_LENGTH), (v, i) => ({
+  id: faker.random.uuid(),
+  name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+  avatar: faker.image.avatar(),
+  jobTitle: faker.name.jobTitle()
+})))
 
 class DropAndDragList extends Component {
+  renderRow ({ data }) {
+    return (
+      <ListItem
+        roundAvatar
+        avatar={{ uri: data.avatar }}
+        title={data.name}
+        subtitle={data.jobTitle}
+        rightIcon={{ name: 'reorder' }}
+      />
+    )
+  }
+
   render () {
     return (
-      <View>
-        {
-          LIST.map(item => (
-            <ListItem
-              key={item.id}
-              avatar={{ uri: item.avatar_url }}
-              title={item.name}
-              subtitle={item.subtitle}
-              roundAvatar
-              hideChevron
-            />
-          ))
-        }
-      </View>
+      <SortableList
+        data={LIST}
+        renderRow={this.renderRow}
+      />
     )
   }
 }
