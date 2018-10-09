@@ -5,7 +5,7 @@ import SortableList from 'react-native-sortable-list'
 
 import { arrayToObject } from '@root/utils/converter'
 
-const LIST_LENGTH = 50
+const LIST_LENGTH = 8
 const LIST = arrayToObject(Array.from(Array(LIST_LENGTH), (v, i) => ({
   id: faker.random.uuid(),
   name: `${faker.name.firstName()} ${faker.name.lastName()}`,
