@@ -54,6 +54,7 @@ class EmployeeProfile extends Component {
         <List>
           {ICON_MAPPING.map(({ key, icon }) => (
             <ListItem
+              key={key}
               title={rest[key]}
               leftIcon={{ name: icon }}
               hideChevron

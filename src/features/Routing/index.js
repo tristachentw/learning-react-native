@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { Icon } from 'react-native-elements'
-import { NativeRouter, Route, Link } from 'react-router-native'
+import { NativeRouter, Route, Link, BackButton } from 'react-router-native'
 import styled from 'styled-components'
 
 import NAVIGATION_ITEMS from './navigationItems'
@@ -40,29 +40,31 @@ class Routing extends Component {
   render () {
     return (
       <NativeRouter>
-        <StyledContainer>
-          <StyledScrollView>
-            {NAVIGATION_ITEMS.map(item => (
-              <Route
-                key={item.id}
-                exact={item.exact}
-                path={item.path}
-                component={item.component}
-              />
-            ))}
-          </StyledScrollView>
+        <BackButton>
+          <StyledContainer>
+            <StyledScrollView>
+              {NAVIGATION_ITEMS.map(item => (
+                <Route
+                  key={item.id}
+                  exact={item.exact}
+                  path={item.path}
+                  component={item.component}
+                />
+              ))}
+            </StyledScrollView>
 
-          <StyledNavigationBar>
-            {NAVIGATION_ITEMS.filter(item => item.visible).map(item => (
-              <StyledNav key={item.id} to={item.path}>
-                <View>
-                  <StyledNavIcon name={item.icon} />
-                  <StyledNavText>{item.title}</StyledNavText>
-                </View>
-              </StyledNav>
-            ))}
-          </StyledNavigationBar>
-        </StyledContainer>
+            <StyledNavigationBar>
+              {NAVIGATION_ITEMS.filter(item => item.visible).map(item => (
+                <StyledNav key={item.id} to={item.path}>
+                  <View>
+                    <StyledNavIcon name={item.icon} />
+                    <StyledNavText>{item.title}</StyledNavText>
+                  </View>
+                </StyledNav>
+              ))}
+            </StyledNavigationBar>
+          </StyledContainer>
+        </BackButton>
       </NativeRouter>
     )
   }
