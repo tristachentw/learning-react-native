@@ -1,10 +1,28 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { Text, Icon } from 'react-native-elements'
+import styled from 'styled-components'
+
+const StyledContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
+const StyledIcon = styled(Icon).attrs({
+  size: 150,
+  color: '#673ab7',
+  iconStyle: {
+    marginTop: 10,
+    marginBottom: 10
+  }
+})``
 
 class Home extends Component {
   render () {
     return (
-      <View><Text>Home</Text></View>
+      <StyledContainer>
+        <StyledIcon name='md-globe' type='ionicon' />
+        <Text h3>Hi! How are you?</Text>
+      </StyledContainer>
     )
   }
 }
