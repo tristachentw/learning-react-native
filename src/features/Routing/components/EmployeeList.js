@@ -1,25 +1,21 @@
 import React, { Component } from 'react'
-import faker from 'faker'
 import { FlatList } from 'react-native'
+import { Link } from 'react-router-native'
 import { ListItem } from 'react-native-elements'
 
-const LIST_LENGTH = 50
-const LIST = Array.from(Array(LIST_LENGTH), (v, i) => ({
-  id: faker.random.uuid(),
-  name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-  avatar: faker.image.avatar(),
-  jobTitle: faker.name.jobTitle()
-}))
+import EMPLOYEE_LIST from '../employeeList'
 
 class EmployeeList extends Component {
   renderItem ({ item }) {
     return (
-      <ListItem
-        roundAvatar
-        avatar={{ uri: item.avatar }}
-        title={item.name}
-        subtitle={item.jobTitle}
-      />
+      <Link to={`/employees/${item.id}`}>
+        <ListItem
+          roundAvatar
+          avatar={{ uri: item.avatar }}
+          title={item.name}
+          subtitle={item.jobTitle}
+        />
+      </Link>
     )
   }
 
@@ -27,7 +23,7 @@ class EmployeeList extends Component {
     return (
       <FlatList
         keyExtractor={item => item.id}
-        data={LIST}
+        data={EMPLOYEE_LIST}
         renderItem={this.renderItem}
       />
     )

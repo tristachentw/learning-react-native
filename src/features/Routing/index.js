@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { View, ScrollView } from 'react-native'
+import { View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { NativeRouter, Route, Link } from 'react-router-native'
 import styled from 'styled-components'
@@ -10,6 +10,9 @@ import NAVIGATION_ITEMS from './navigationItems'
 const StyledContainer = styled.View`
   flex: 1;
 `
+const StyledScrollView = styled.ScrollView.attrs({
+  contentContainerStyle: { flex: 1 }
+})``
 const StyledNavigationBar = styled.View`
   display: flex;
   justify-content: center;
@@ -38,14 +41,19 @@ class Routing extends Component {
     return (
       <NativeRouter>
         <StyledContainer>
-          <ScrollView>
+          <StyledScrollView>
             {NAVIGATION_ITEMS.map(item => (
-              <Route key={item.id} exact path={item.path} component={item.component} />
+              <Route
+                key={item.id}
+                exact={item.exact}
+                path={item.path}
+                component={item.component}
+              />
             ))}
-          </ScrollView>
+          </StyledScrollView>
 
           <StyledNavigationBar>
-            {NAVIGATION_ITEMS.map(item => (
+            {NAVIGATION_ITEMS.filter(item => item.visible).map(item => (
               <StyledNav key={item.id} to={item.path}>
                 <View>
                   <StyledNavIcon name={item.icon} />
