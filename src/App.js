@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import HeaderBar from './components/HeaderBar'
 import DropAndDragList from './features/DropAndDragList'
 import Routing from './features/Routing'
+import WeatherAPI from './features/WeatherAPI'
 
 const FEATURE_LIST = [{
   id: 'drop_and_drag_list',
@@ -19,6 +20,10 @@ const FEATURE_LIST = [{
   id: 'routing',
   title: 'Example2: Routing',
   component: Routing
+}, {
+  id: 'weather_api',
+  title: 'Example3: Weather API',
+  component: WeatherAPI
 }]
 
 const StyledContainer = styled.View`

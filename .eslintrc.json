@@ -1,3 +1,11 @@
 {
-    "extends": ["standard", "standard-jsx", "standard-react"]
+    "extends": ["standard", "standard-jsx", "standard-react"],
+    "plugins": [
+      "react",
+      "react-native",
+      "react-native-globals"
+    ],
+    "env": {
+      "react-native-globals/all": true
+    }
 }

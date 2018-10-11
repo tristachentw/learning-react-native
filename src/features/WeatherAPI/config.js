@@ -1,0 +1,1 @@
+export const OPEN_WEATHER_MAP_APPID = '0a8b25b703052912684aaac17e7078dc'
