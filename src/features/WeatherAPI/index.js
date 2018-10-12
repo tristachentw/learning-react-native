@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { searchCityWeather } from './api'
 import Bg from './bg.jpg'
 
+const DEFAULT_CITY = 'taipei'
+
 const StyledText = styled(Text)`
   color: #fff;
 `
@@ -36,9 +38,6 @@ const StyledHeading = styled.View`
 const StyledHeadingIcon = styled(StyledIcon).attrs({
   size: 40
 })``
-const StyledCapitalize = styled(StyledText)`
-  text-transform: capitalize;
-`
 const StyledListItem = styled.View`
   flex: 1;
   flex-direction: row;
@@ -84,26 +83,40 @@ class WeatherAPI extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      temperatureUnit: 'c'
+      temperatureUnit: 'c',
+      isLoading: false,
+      error: null
     }
     this.getWeather = this.getWeather.bind(this)
   }
 
+  componentDidMount () {
+    this.getWeather(DEFAULT_CITY)
+  }
+
   getWeather (city) {
+    this.setState({ isLoading: true })
     searchCityWeather(city)
       .then(response => {
-        console.log(response)
-        this.setState({ ...response })
+        this.setState({
+          ...response,
+          isLoading: false
+        })
       })
-      .catch(error => console.error(error))
+      .catch(error => this.setState({
+        error,
+        isLoading: false
+      }))
   }
 
   formatSunTime (ts) {
-    return new Date(ts * 1000).toLocaleString('en-US', {
-      hour12: true,
-      hour: 'numeric',
-      minute: 'numeric'
-    })
+    const date = new Date(ts * 1000)
+    let hours = date.getHours()
+    let minutes = date.getMinutes()
+    const ampm = hours >= 12 ? 'PM' : 'AM'
+    hours = hours % 12
+    minutes = minutes < 10 ? '0' + minutes : minutes
+    return `${hours}:${minutes} ${ampm}`
   }
 
   get icon () {
@@ -126,8 +139,8 @@ class WeatherAPI extends Component {
 
   get description () {
     const { weather = [{}] } = this.state
-    const { description } = weather[0]
-    return description
+    const { description = '' } = weather[0]
+    return description.charAt(0).toUpperCase() + description.slice(1)
   }
 
   get windDirection () {
@@ -138,7 +151,7 @@ class WeatherAPI extends Component {
       'S', 'SSW', 'SW', 'WSW',
       'W', 'WNW', 'NW', 'NNW'
     ]
-    return direction[Math.floor((deg % 360) / 22.5)]
+    return deg ? direction[Math.floor((deg % 360) / 22.5)] : ''
   }
 
   render () {
@@ -148,9 +161,9 @@ class WeatherAPI extends Component {
       sys: { country, sunrise, sunset } = {},
       wind = {},
       visibility,
-      coord = {},
       dt,
-      temperatureUnit
+      temperatureUnit,
+      isLoading
     } = this.state
     const isCelsius = temperatureUnit === 'c'
 
@@ -161,6 +174,7 @@ class WeatherAPI extends Component {
           lightTheme
           onChangeText={this.getWeather}
           onClearText={this.getWeather}
+          showLoadingIcon={isLoading}
           placeholder='Enter city'
         />
 
@@ -168,8 +182,6 @@ class WeatherAPI extends Component {
           <StyledHeading>
             <StyledBlock>
               <StyledText h2>{`${name}, ${country}`}</StyledText>
-              <StyledIcon name='place' />
-              <StyledText>{`${coord.lon}, ${coord.lat}`}</StyledText>
             </StyledBlock>
 
             <StyledBlock>
@@ -186,7 +198,7 @@ class WeatherAPI extends Component {
                     name='temperature-fahrenheit'
                   />}
                 </StyledBlock>
-                <StyledCapitalize h4>{this.description}</StyledCapitalize>
+                <StyledText h4>{this.description}</StyledText>
               </View>
             </StyledBlock>
           </StyledHeading>
@@ -247,9 +259,9 @@ class WeatherAPI extends Component {
               value={this.formatSunTime(sunset)}
             />
           </StyledBlock>
-
-          <StyledFooter>{`Updated Time: ${new Date(dt * 1000).toLocaleString()}`}</StyledFooter>
         </StyledBody>
+
+        <StyledFooter>{`Updated Time: ${new Date(dt * 1000).toLocaleString()}`}</StyledFooter>
       </StyledContainer>
     )
   }
