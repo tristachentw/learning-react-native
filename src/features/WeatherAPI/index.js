@@ -140,7 +140,7 @@ class WeatherAPI extends Component {
   get description () {
     const { weather = [{}] } = this.state
     const { description = '' } = weather[0]
-    return description.charAt(0).toUpperCase() + description.slice(1)
+    return description.replace(/(^|\s)[a-z]/g, str => str.toUpperCase())
   }
 
   get windDirection () {
