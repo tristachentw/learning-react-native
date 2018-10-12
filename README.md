@@ -17,7 +17,7 @@ Notes for learning React Native.
   - [ ] Oauth Login with Facebook and Google.
 
 ### Third Party API
-  - [ ] Use Weather API to display searched city's weather.
+  - [x] Use Weather API to display searched city's weather.
   - [ ] Use Google Maps to display user's location.
   - [ ] Use Dropbox API to sync data.
   - [ ] Use Instagram API to display user's feed.
@@ -82,3 +82,23 @@ For exapmle: We want to use `react-native-vector-icons`
 # npm i react-native-vector-icons --save
 # react-native link react-native-vector-icons
 ```
+
+### Debug
+- 呼叫 Request 是所有 Client side 必定會接觸到的議題，但在測試的時候一直無法在 debug tools 看到 Network request，剛開始還以為是我程式沒寫好...後來才發現原來要多加一行 code 才能讓 debug tools 顯示出來！將下面這行 code 加在 `index.js` 最後一行就可以看到囉！
+  ```
+  // @index.js
+  global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest
+  ```
+
+- Requset library 選擇使用 `axios` , 在串 request 的時候想說為什麼一直無法 catch error，都會直接跳出紅屏，程式碼如下
+  ```
+  axios.get()
+    .then(res => consolelog(res))
+    .catch(err => console.error(err))
+  ```
+  反覆找了很久，才終於發現... `console.error` 就是會跳紅屏，在 debug tools 是不會額外顯示的！
+
+原來，RN debug 之路如此坎坷 😅
+
+### Compatibility
+- [toLocaleString is not work on Android](https://github.com/facebook/react-native/issues/15717)
