@@ -1,3 +1,23 @@
 {
-  "hello": "你好"
+  "label_humidity": "濕度",
+  "label_wind": "風向",
+  "label_pressure": "氣壓",
+  "label_visibility": "能見度",
+  "label_sunrise": "日出",
+  "label_sunset": "日落",
+  "label_last_updated_time": "最後更新時間",
+
+  "value_humidity": "{humidity} %",
+  "value_wind": "{direction} {speed} 公尺/秒",
+  "value_pressure": "{pressure} 百帕",
+  "value_visibility": "{visibility} 公里",
+  "value_sunrise": "{time}",
+  "value_sunset": "{time}",
+
+  "value_wind_direction_n": "北",
+  "value_wind_direction_e": "東",
+  "value_wind_direction_w": "西",
+  "value_wind_direction_s": "南",
+
+  "placeholder_search_city": "輸入城市"
 }

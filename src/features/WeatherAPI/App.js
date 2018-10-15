@@ -1,12 +1,51 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { SearchBar, Text, Icon } from 'react-native-elements'
+import { injectIntl, intlShape } from 'react-intl'
 import styled from 'styled-components'
 
+import { convertTimestamp } from '@root/utils/date'
+import { ICON_PATH_PREFIX } from './config'
 import { searchCityWeather } from './api'
+
+import ListItem from './components/ListItem'
 import Bg from './bg.jpg'
 
 const DEFAULT_CITY = 'taipei'
+const ICON_MAPPING = {
+  celsius: {
+    type: 'material-community',
+    name: 'temperature-celsius'
+  },
+  fahrenheit: {
+    type: 'material-community',
+    name: 'temperature-fahrenheit'
+  },
+  humidity: {
+    type: 'material-community',
+    name: 'water-percent'
+  },
+  wind: {
+    type: 'material-community',
+    name: 'weather-windy'
+  },
+  pressure: {
+    type: 'font-awesome',
+    name: 'dashboard'
+  },
+  visibility: {
+    name: 'visibility'
+  },
+  sunrise: {
+    type: 'material-community',
+    name: 'weather-sunset-up'
+  },
+  sunset: {
+    type: 'material-community',
+    name: 'weather-sunset-down'
+  }
+}
+const CONTENT_FIELD_ORDER = ['humidity', 'wind', 'pressure', 'visibility', 'sunrise', 'sunset']
 
 const StyledText = styled(Text)`
   color: #fff;
@@ -14,6 +53,13 @@ const StyledText = styled(Text)`
 const StyledIcon = styled(Icon).attrs({
   color: '#fff'
 })``
+const StyledBlock = styled.View`
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding-left: 20;
+  padding-right: 20;
+`
 const StyledContainer = styled.ImageBackground.attrs({
   source: Bg
 })`
@@ -23,43 +69,23 @@ const StyledContainer = styled.ImageBackground.attrs({
 const StyledBody = styled.View`
   flex: 1;
 `
-const StyledBlock = styled.View`
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  padding-left: 20;
-  padding-right: 20;
-`
 const StyledHeading = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
 `
-const StyledHeadingIcon = styled(StyledIcon).attrs({
-  size: 40
-})``
-const StyledListItem = styled.View`
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  padding-top: 15;
-  padding-bottom: 15;
-`
-const StyledListItemLabel = styled.View`
-  width: 35%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-`
-const StyledListItemValue = styled(StyledText)`
-  margin-left: 10;
-  font-size: 18;
-`
-const StyledImage = styled.Image`
+const StyledWeatherIcon = styled.Image`
   width: 150;
   height: 150;
   margin-left: 10;
   margin-right: 10;
+`
+const StyledTemperatureIcon = styled(StyledIcon).attrs({
+  size: 40
+})``
+const StyledContent = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
 `
 const StyledFooter = styled(StyledText)`
   align-self: flex-end;
@@ -69,17 +95,7 @@ const StyledFooter = styled(StyledText)`
   margin-right: 5;
 `
 
-const ListItem = ({ icon, title, value }) => (
-  <StyledListItem>
-    <StyledListItemLabel>
-      <StyledIcon {...icon} />
-      <StyledText>{title}</StyledText>
-    </StyledListItemLabel>
-    <StyledListItemValue>{value}</StyledListItemValue>
-  </StyledListItem>
-)
-
-class WeatherAPI extends Component {
+class WeatherAPP extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -109,20 +125,37 @@ class WeatherAPI extends Component {
       }))
   }
 
-  formatSunTime (ts) {
-    const date = new Date(ts * 1000)
-    let hours = date.getHours()
-    let minutes = date.getMinutes()
-    const ampm = hours >= 12 ? 'PM' : 'AM'
-    hours = hours % 12
-    minutes = minutes < 10 ? '0' + minutes : minutes
-    return `${hours}:${minutes} ${ampm}`
+  getValue (key) {
+    const { intl } = this.props
+    const {
+      main: { humidity, pressure } = {},
+      sys: { sunrise, sunset } = {},
+      wind = {},
+      visibility
+    } = this.state
+    const value = {}
+
+    if (key === 'humidity') {
+      value.humidity = humidity
+    } else if (key === 'wind') {
+      value.direction = this.windDirection
+      value.speed = wind.speed
+    } else if (key === 'pressure') {
+      value.pressure = pressure
+    } else if (key === 'visibility') {
+      value.visibility = Math.round(visibility / 1000).toFixed(1)
+    } else if (key === 'sunrise') {
+      value.time = intl.formatTime(sunrise)
+    } else if (key === 'sunset') {
+      value.time = intl.formatTime(sunset)
+    }
+    return value
   }
 
   get icon () {
     const { weather = [{}] } = this.state
     const { icon } = weather[0]
-    return `https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/${icon}.png`
+    return `${ICON_PATH_PREFIX}${icon}.png`
   }
 
   get temperature () {
@@ -155,12 +188,10 @@ class WeatherAPI extends Component {
   }
 
   render () {
+    const { intl } = this.props
     const {
       name,
-      main: { humidity, pressure } = {},
-      sys: { country, sunrise, sunset } = {},
-      wind = {},
-      visibility,
+      sys: { country } = {},
       dt,
       temperatureUnit,
       isLoading
@@ -175,7 +206,7 @@ class WeatherAPI extends Component {
           onChangeText={this.getWeather}
           onClearText={this.getWeather}
           showLoadingIcon={isLoading}
-          placeholder='Enter city'
+          placeholder={intl.formatMessage({ id: 'placeholder_search_city' })}
         />
 
         <StyledBody>
@@ -185,86 +216,40 @@ class WeatherAPI extends Component {
             </StyledBlock>
 
             <StyledBlock>
-              <StyledImage source={{ uri: this.icon }} />
+              <StyledWeatherIcon source={{ uri: this.icon }} />
               <View>
                 <StyledBlock>
                   <StyledText h2>{this.temperature}</StyledText>
-                  {isCelsius && <StyledHeadingIcon
-                    type='material-community'
-                    name='temperature-celsius'
-                  />}
-                  {!isCelsius && <StyledHeadingIcon
-                    type='material-community'
-                    name='temperature-fahrenheit'
-                  />}
+                  {isCelsius && <StyledTemperatureIcon {...ICON_MAPPING.celsius} />}
+                  {!isCelsius && <StyledTemperatureIcon {...ICON_MAPPING.fahrenheit} />}
                 </StyledBlock>
                 <StyledText h4>{this.description}</StyledText>
               </View>
             </StyledBlock>
           </StyledHeading>
 
-          <StyledBlock>
-            <ListItem
-              icon={{
-                type: 'material-community',
-                name: 'water-percent'
-              }}
-              title='Humidity'
-              value={`${humidity}%`}
-            />
+          <StyledContent>
+            {CONTENT_FIELD_ORDER.map(key => (
+              <ListItem
+                key={key}
+                id={key}
+                icon={ICON_MAPPING[key]}
+                value={this.getValue(key)}
+              />
+            ))}
+          </StyledContent>
 
-            <ListItem
-              icon={{
-                type: 'material-community',
-                name: 'weather-windy'
-              }}
-              title='Wind'
-              value={`${this.windDirection} ${wind.speed} m/s`}
-            />
-          </StyledBlock>
-
-          <StyledBlock>
-            <ListItem
-              icon={{
-                type: 'font-awesome',
-                name: 'dashboard'
-              }}
-              title='Pressure'
-              value={`${pressure} hPa`}
-            />
-            <ListItem
-              icon={{
-                name: 'visibility'
-              }}
-              title='Visibility'
-              value={`${Math.round(visibility / 1000).toFixed(1)} km`}
-            />
-          </StyledBlock>
-
-          <StyledBlock>
-            <ListItem
-              icon={{
-                type: 'material-community',
-                name: 'weather-sunset-up'
-              }}
-              title='Sunrise'
-              value={this.formatSunTime(sunrise)}
-            />
-            <ListItem
-              icon={{
-                type: 'material-community',
-                name: 'weather-sunset-down'
-              }}
-              title='Sunset'
-              value={this.formatSunTime(sunset)}
-            />
-          </StyledBlock>
+          <StyledFooter>
+            {`${intl.formatMessage({ id: 'label_last_updated_time' })}: ${intl.formatRelative(convertTimestamp(dt))}`}
+          </StyledFooter>
         </StyledBody>
-
-        <StyledFooter>{`Updated Time: ${new Date(dt * 1000).toLocaleString()}`}</StyledFooter>
       </StyledContainer>
     )
   }
 }
 
-export default WeatherAPI
+WeatherAPP.propTypes = {
+  intl: intlShape.isRequired
+}
+
+export default injectIntl(WeatherAPP)

@@ -1,3 +1,23 @@
 {
-  "hello": "Hello"
+  "label_humidity": "Humidity",
+  "label_wind": "Wind",
+  "label_pressure": "Pressure",
+  "label_visibility": "Visibility",
+  "label_sunrise": "Sunrise",
+  "label_sunset": "Sunset",
+  "label_last_updated_time": "Last Updated Time",
+
+  "value_humidity": "{humidity} %",
+  "value_wind": "{direction} {speed} m/s",
+  "value_pressure": "{pressure} hPa",
+  "value_visibility": "{visibility} km",
+  "value_sunrise": "{time}",
+  "value_sunset": "{time}",
+
+  "value_wind_direction_n": "N",
+  "value_wind_direction_e": "E",
+  "value_wind_direction_w": "W",
+  "value_wind_direction_s": "S",
+
+  "placeholder_search_city": "Enter city"
 }

@@ -22,7 +22,7 @@ class I18n extends Component {
   }
 
   get messages () {
-    switch (this.locale.split('_')[0]) {
+    switch (this.locale.split('-')[0]) {
       case 'en':
         return enUS
       case 'zh':
@@ -36,7 +36,7 @@ class I18n extends Component {
     return (
       <IntlProvider
         locale={this.locale}
-        messages={enUS}
+        messages={this.messages}
         textComponent={Text}
         onError={err => console.warn(err)}
       >
