@@ -20,7 +20,9 @@
   "dependencies": {
     "axios": "^0.18.0",
     "faker": "^4.1.0",
+    "intl": "^1.2.5",
     "react": "16.5.0",
+    "react-intl": "^2.7.1",
     "react-native": "0.57.1",
     "react-native-elements": "^0.19.1",
     "react-native-languages": "^3.0.1",
