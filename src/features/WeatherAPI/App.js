@@ -103,9 +103,9 @@ class WeatherAPP extends Component {
     } else if (key === 'visibility') {
       value.visibility = Math.round(visibility / 1000).toFixed(1)
     } else if (key === 'sunrise') {
-      value.time = intl.formatTime(sunrise)
+      value.time = intl.formatTime(convertTimestamp(sunrise))
     } else if (key === 'sunset') {
-      value.time = intl.formatTime(sunset)
+      value.time = intl.formatTime(convertTimestamp(sunset))
     }
     return value
   }

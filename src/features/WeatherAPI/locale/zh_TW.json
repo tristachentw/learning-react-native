@@ -8,7 +8,7 @@
   "label_last_updated_time": "最後更新時間",
 
   "value_humidity": "{humidity} %",
-  "value_wind": "{direction} {speed} 公尺/秒",
+  "value_wind": "{direction}\n{speed} 公尺/秒",
   "value_pressure": "{pressure} 百帕",
   "value_visibility": "{visibility} 公里",
   "value_sunrise": "{time}",

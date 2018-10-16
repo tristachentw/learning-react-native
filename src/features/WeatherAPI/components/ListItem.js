@@ -14,7 +14,7 @@ const StyledContainer = styled.View`
   width: 50%;
 `
 const StyledLabel = styled.View`
-  width: 35%;
+  width: 45%;
   display: flex;
   justify-content: space-around;
   align-items: center;
