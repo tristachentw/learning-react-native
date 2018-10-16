@@ -2,11 +2,18 @@ import React, { Component } from 'react'
 import { View } from 'react-native'
 import { SearchBar, Text, Icon } from 'react-native-elements'
 import { injectIntl, intlShape } from 'react-intl'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { convertTimestamp } from '@root/utils/date'
 import { ICON_PATH_PREFIX } from './config'
-import { searchCityWeather } from './api'
+import {
+  actions,
+  getData,
+  getLoading,
+  getError
+} from './redux/weather'
 
 import ListItem from './components/ListItem'
 import Bg from './bg.jpg'
@@ -99,9 +106,7 @@ class WeatherAPP extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      temperatureUnit: 'c',
-      isLoading: false,
-      error: null
+      temperatureUnit: 'c'
     }
     this.getWeather = this.getWeather.bind(this)
   }
@@ -111,18 +116,7 @@ class WeatherAPP extends Component {
   }
 
   getWeather (city) {
-    this.setState({ isLoading: true })
-    searchCityWeather(city)
-      .then(response => {
-        this.setState({
-          ...response,
-          isLoading: false
-        })
-      })
-      .catch(error => this.setState({
-        error,
-        isLoading: false
-      }))
+    this.props.fetchWeather(city)
   }
 
   getValue (key) {
@@ -132,7 +126,7 @@ class WeatherAPP extends Component {
       sys: { sunrise, sunset } = {},
       wind = {},
       visibility
-    } = this.state
+    } = this.props.data
     const value = {}
 
     if (key === 'humidity') {
@@ -153,16 +147,16 @@ class WeatherAPP extends Component {
   }
 
   get icon () {
-    const { weather = [{}] } = this.state
+    const { weather = [{}] } = this.props.data
     const { icon } = weather[0]
     return `${ICON_PATH_PREFIX}${icon}.png`
   }
 
   get temperature () {
     const {
-      main: { temp: k } = {},
-      temperatureUnit
-    } = this.state
+      main: { temp: k } = {}
+    } = this.props.data
+    const { temperatureUnit } = this.state
 
     if (temperatureUnit === 'c') {
       return Math.round(k - 273.15)
@@ -171,13 +165,13 @@ class WeatherAPP extends Component {
   }
 
   get description () {
-    const { weather = [{}] } = this.state
+    const { weather = [{}] } = this.props.data
     const { description = '' } = weather[0]
     return description.replace(/(^|\s)[a-z]/g, str => str.toUpperCase())
   }
 
   get windDirection () {
-    const { wind: { deg } = {} } = this.state
+    const { wind: { deg } = {} } = this.props.data
     const direction = [
       'N', 'NNE', 'NE', 'ENE',
       'E', 'ESE', 'SE', 'SSE',
@@ -188,14 +182,13 @@ class WeatherAPP extends Component {
   }
 
   render () {
-    const { intl } = this.props
+    const { intl, loading } = this.props
     const {
       name,
       sys: { country } = {},
-      dt,
-      temperatureUnit,
-      isLoading
-    } = this.state
+      dt
+    } = this.props.data
+    const { temperatureUnit } = this.state
     const isCelsius = temperatureUnit === 'c'
 
     return (
@@ -205,7 +198,7 @@ class WeatherAPP extends Component {
           lightTheme
           onChangeText={this.getWeather}
           onClearText={this.getWeather}
-          showLoadingIcon={isLoading}
+          showLoadingIcon={loading}
           placeholder={intl.formatMessage({ id: 'placeholder_search_city' })}
         />
 
@@ -252,4 +245,15 @@ WeatherAPP.propTypes = {
   intl: intlShape.isRequired
 }
 
-export default injectIntl(WeatherAPP)
+export default compose(
+  connect(
+    state => ({
+      data: getData(state.weather),
+      loading: getLoading(state.weather),
+      error: getError(state.weather)
+    }), {
+      fetchWeather: actions.fetchWeatherRequest
+    }
+  ),
+  injectIntl
+)(WeatherAPP)
