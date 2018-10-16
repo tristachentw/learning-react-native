@@ -1,16 +1,11 @@
 import React, { Component } from 'react'
 import { string, object } from 'prop-types'
-import { Text } from 'react-native'
-import { Icon } from 'react-native-elements'
 import { injectIntl, intlShape } from 'react-intl'
 import styled from 'styled-components'
 
-const StyledText = styled(Text)`
-  color: #fff;
-`
-const StyledIcon = styled(Icon).attrs({
-  color: '#fff'
-})``
+import Text from './Text'
+import Icon from './Icon'
+
 const StyledContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -24,9 +19,9 @@ const StyledLabel = styled.View`
   justify-content: space-around;
   align-items: center;
 `
-const StyledValue = styled(StyledText)`
-  font-size: 16;
-`
+const StyledLabelText = styled(Text).attrs({
+  weight: 'bold'
+})``
 
 class ListItem extends Component {
   render () {
@@ -37,10 +32,10 @@ class ListItem extends Component {
     return (
       <StyledContainer>
         <StyledLabel>
-          <StyledIcon {...icon} />
-          <StyledText>{intl.formatMessage({ id: i18nTitle })}</StyledText>
+          <Icon {...icon} />
+          <StyledLabelText>{intl.formatMessage({ id: i18nTitle })}</StyledLabelText>
         </StyledLabel>
-        <StyledValue>{intl.formatMessage({ id: i18nValue }, value)}</StyledValue>
+        <Text>{intl.formatMessage({ id: i18nValue }, value)}</Text>
       </StyledContainer>
     )
   }

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import { SearchBar, Text, Icon } from 'react-native-elements'
+import { SearchBar } from 'react-native-elements'
 import { injectIntl, intlShape } from 'react-intl'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { convertTimestamp } from '@root/utils/date'
-import { ICON_PATH_PREFIX } from './config'
+import { WEATHER_ICON_PATH_PREFIX } from './config'
+import ICONS from './style/icons'
 import {
   actions,
   getData,
@@ -15,51 +16,14 @@ import {
   getError
 } from './redux/weather'
 
+import Text from './components/Text'
+import Icon from './components/Icon'
 import ListItem from './components/ListItem'
 import Bg from './bg.jpg'
 
 const DEFAULT_CITY = 'taipei'
-const ICON_MAPPING = {
-  celsius: {
-    type: 'material-community',
-    name: 'temperature-celsius'
-  },
-  fahrenheit: {
-    type: 'material-community',
-    name: 'temperature-fahrenheit'
-  },
-  humidity: {
-    type: 'material-community',
-    name: 'water-percent'
-  },
-  wind: {
-    type: 'material-community',
-    name: 'weather-windy'
-  },
-  pressure: {
-    type: 'font-awesome',
-    name: 'dashboard'
-  },
-  visibility: {
-    name: 'visibility'
-  },
-  sunrise: {
-    type: 'material-community',
-    name: 'weather-sunset-up'
-  },
-  sunset: {
-    type: 'material-community',
-    name: 'weather-sunset-down'
-  }
-}
 const CONTENT_FIELD_ORDER = ['humidity', 'wind', 'pressure', 'visibility', 'sunrise', 'sunset']
 
-const StyledText = styled(Text)`
-  color: #fff;
-`
-const StyledIcon = styled(Icon).attrs({
-  color: '#fff'
-})``
 const StyledBlock = styled.View`
   flex-direction: row;
   justify-content: space-around;
@@ -87,14 +51,14 @@ const StyledWeatherIcon = styled.Image`
   margin-left: 10;
   margin-right: 10;
 `
-const StyledTemperatureIcon = styled(StyledIcon).attrs({
+const StyledTemperatureIcon = styled(Icon).attrs({
   size: 40
 })``
 const StyledContent = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
 `
-const StyledFooter = styled(StyledText)`
+const StyledFooter = styled(Text)`
   align-self: flex-end;
   margin-top: 20;
   margin-bottom: 10;
@@ -108,14 +72,14 @@ class WeatherAPP extends Component {
     this.state = {
       temperatureUnit: 'c'
     }
-    this.getWeather = this.getWeather.bind(this)
+    this.fetchWeather = this.fetchWeather.bind(this)
   }
 
   componentDidMount () {
-    this.getWeather(DEFAULT_CITY)
+    this.fetchWeather(DEFAULT_CITY)
   }
 
-  getWeather (city) {
+  fetchWeather (city) {
     this.props.fetchWeather(city)
   }
 
@@ -146,10 +110,10 @@ class WeatherAPP extends Component {
     return value
   }
 
-  get icon () {
+  get weatherIcon () {
     const { weather = [{}] } = this.props.data
     const { icon } = weather[0]
-    return `${ICON_PATH_PREFIX}${icon}.png`
+    return `${WEATHER_ICON_PATH_PREFIX}${icon}.png`
   }
 
   get temperature () {
@@ -196,8 +160,8 @@ class WeatherAPP extends Component {
         <SearchBar
           round
           lightTheme
-          onChangeText={this.getWeather}
-          onClearText={this.getWeather}
+          onChangeText={this.fetchWeather}
+          onClearText={this.fetchWeather}
           showLoadingIcon={loading}
           placeholder={intl.formatMessage({ id: 'placeholder_search_city' })}
         />
@@ -205,18 +169,18 @@ class WeatherAPP extends Component {
         <StyledBody>
           <StyledHeading>
             <StyledBlock>
-              <StyledText h2>{`${name}, ${country}`}</StyledText>
+              <Text h1>{`${name}, ${country}`}</Text>
             </StyledBlock>
 
             <StyledBlock>
-              <StyledWeatherIcon source={{ uri: this.icon }} />
+              <StyledWeatherIcon source={{ uri: this.weatherIcon }} />
               <View>
                 <StyledBlock>
-                  <StyledText h2>{this.temperature}</StyledText>
-                  {isCelsius && <StyledTemperatureIcon {...ICON_MAPPING.celsius} />}
-                  {!isCelsius && <StyledTemperatureIcon {...ICON_MAPPING.fahrenheit} />}
+                  <Text h2>{this.temperature}</Text>
+                  {isCelsius && <StyledTemperatureIcon {...ICONS.celsius} />}
+                  {!isCelsius && <StyledTemperatureIcon {...ICONS.fahrenheit} />}
                 </StyledBlock>
-                <StyledText h4>{this.description}</StyledText>
+                <Text h3>{this.description}</Text>
               </View>
             </StyledBlock>
           </StyledHeading>
@@ -226,7 +190,7 @@ class WeatherAPP extends Component {
               <ListItem
                 key={key}
                 id={key}
-                icon={ICON_MAPPING[key]}
+                icon={ICONS[key]}
                 value={this.getValue(key)}
               />
             ))}

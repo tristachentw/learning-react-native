@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
+import { ThemeProvider } from 'styled-components'
 
-import I18n from './i18n'
-import App from './App'
 import store from './redux/configureStore'
+import I18n from './i18n'
+import theme from './style/theme'
+import App from './App'
 
 class WeatherAPP extends Component {
   constructor (props) {
@@ -15,7 +17,9 @@ class WeatherAPP extends Component {
     return (
       <Provider store={this.store}>
         <I18n>
-          <App />
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
         </I18n>
       </Provider>
     )

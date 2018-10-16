@@ -4,7 +4,7 @@ import { from, of } from 'rxjs'
 import { mergeMap, map, catchError } from 'rxjs/operators'
 
 import { createRequestedActions } from './actionFactory'
-import * as apis from '../api'
+import * as apis from '../apis'
 
 export const { types, actions } = createRequestedActions([
   'FETCH_WEATHER'
