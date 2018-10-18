@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom Text Component should render without throwing an error 1`] = `
+<Text
+  style={
+    Array [
+      Object {
+        "color": "black",
+        "fontSize": 10,
+        "fontWeight": "normal",
+      },
+    ]
+  }
+  theme={
+    Object {
+      "fontSize": 14,
+      "h1FontSize": 32,
+      "h2FontSize": 24,
+      "h3FontSize": 18,
+      "primaryColor": "#000",
+    }
+  }
+/>
+`;

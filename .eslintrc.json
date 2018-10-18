@@ -6,6 +6,7 @@
       "react-native-globals"
     ],
     "env": {
+      "jest": true,
       "react-native-globals/all": true
     }
 }
