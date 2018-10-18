@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Custom Text Component should render without throwing an error 1`] = `
+exports[`Custom Text Component should render with theme without throwing an error 1`] = `
 <Text
   style={
     Array [
@@ -11,6 +11,73 @@ exports[`Custom Text Component should render without throwing an error 1`] = `
       },
     ]
   }
+  theme={
+    Object {
+      "fontSize": 14,
+      "h1FontSize": 32,
+      "h2FontSize": 24,
+      "h3FontSize": 18,
+      "primaryColor": "#000",
+    }
+  }
+/>
+`;
+
+exports[`Custom Text Component should render without throwing an error 1`] = `
+<StyledNativeComponent
+  forwardedClass={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "attrs": undefined,
+      "defaultProps": Object {
+        "theme": Object {
+          "fontSize": 14,
+          "h1FontSize": 32,
+          "h2FontSize": 24,
+          "h3FontSize": 18,
+          "primaryColor": "#000",
+        },
+      },
+      "displayName": "Text__CustomText",
+      "inlineStyle": InlineStyle {
+        "rules": Array [
+          "font-size:",
+          [Function],
+          ";font-weight:",
+          [Function],
+          ";color:",
+          [Function],
+          ";",
+        ],
+      },
+      "propTypes": Object {
+        "accessible": [Function],
+        "adjustsFontSizeToFit": [Function],
+        "allowFontScaling": [Function],
+        "disabled": [Function],
+        "ellipsizeMode": [Function],
+        "minimumFontScale": [Function],
+        "nativeID": [Function],
+        "numberOfLines": [Function],
+        "onLayout": [Function],
+        "onLongPress": [Function],
+        "onPress": [Function],
+        "pressRetentionOffset": [Function],
+        "selectable": [Function],
+        "selectionColor": [Function],
+        "style": [Function],
+        "suppressHighlighting": [Function],
+        "testID": [Function],
+        "textBreakStrategy": [Function],
+      },
+      "render": [Function],
+      "styledComponentId": "StyledNativeComponent",
+      "target": [Function],
+      "withComponent": [Function],
+      Symbol(Symbol.hasInstance): [Function],
+    }
+  }
+  forwardedRef={null}
   theme={
     Object {
       "fontSize": 14,

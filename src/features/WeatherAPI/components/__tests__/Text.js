@@ -1,5 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { shallow } from 'enzyme'
+import toJson from 'enzyme-to-json'
 import { ThemeProvider } from 'styled-components/native'
 
 import Text from '../Text'
@@ -22,6 +24,11 @@ const renderWithTheme = (children, theme) => {
 
 describe('Custom Text Component', () => {
   it('should render without throwing an error', function () {
+    const component = shallow(<Text />)
+    expect(toJson(component)).toMatchSnapshot()
+  })
+
+  it('should render with theme without throwing an error', function () {
     const component = renderWithTheme(<Text />, THEME)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
