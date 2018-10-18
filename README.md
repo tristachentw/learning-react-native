@@ -13,7 +13,7 @@ Notes for learning React Native.
 ### UI
   - [x] Drop and drag list.
   - [x] Routing and navigation.
-  - [ ] I18n by app setting or mobile local language setting.
+  - [x] I18n by app setting or mobile local language setting.
   - [ ] Oauth Login with Facebook and Google.
 
 ### Third Party API
@@ -102,3 +102,53 @@ For exapmle: We want to use `react-native-vector-icons`
 
 ### Compatibility
 - [toLocaleString is not work on Android](https://github.com/facebook/react-native/issues/15717)
+
+### Style
+為了使用 `styled-components v4.0.1`，在使用上遇上了問題
+
+> undefined is not an object(evaluating 'argv.indexOf')
+
+最後在這邊找到了解法 [styled-components/issues/2044](https://github.com/styled-components/styled-components/issues/2044)
+
+實際 root cause 還不瞭解，但 workaround 可以先透過安裝以下幾個 package 來達成目的。
+```
+npm install support-color os --save
+```
+
+### I18n
+在 i18n 的 library 選擇上面，決定採用 `react-intl`
+
+```
+npm i react-intl
+```
+
+照著官方文檔實作卻遇上了問題：
+
+>[React Intl] Missing locale data for: "en-US". Using default locale: "en" as fallback.
+
+嗯... 認不到 `en-US` 真是神奇啊。後來找到了這個 `react-native-language` 按著官方文檔實作就可以正確取得語言，格式也比較統一，導進 `react-intl` 就不再有問題了。
+
+再來因為 `react-intl` 會使用到 `Intl (ECMAScript Internationalization API)`，但在某些手機底層尚未實作，所以會需要安裝 `Intl`，同時也需要引入對應的語系檔案。
+
+```
+npm install intl --save
+```
+
+嗯... 我以為這條路很簡單，而我花了一天半的時間才終於看到一道曙光 😭
+
+### Test
+在打算開始用 jest 寫測試的時候，遇上了這個 error
+
+> Couldn't find preset "module:metro-react-native-babel-preset" relative to directory
+
+從這邊有找到一個 workaround [react-native/issues/21241](https://github.com/facebook/react-native/issues/21241)
+
+只要在 `package.json` 加上這段，就可以了。不過 root cause 也不是很瞭解。
+
+```
+"jest": {
+  "transform": {
+    "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
+  }
+}
+```
