@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react'
 import { Button } from 'react-native-elements'
-import styled from 'styled-components'
+import styled from 'styled-components/native'
 
 import HeaderBar from './components/HeaderBar'
 import DropAndDragList from './features/DropAndDragList'

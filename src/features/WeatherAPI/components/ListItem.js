@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { string, object } from 'prop-types'
 import { injectIntl, intlShape } from 'react-intl'
-import styled from 'styled-components'
+import styled from 'styled-components/native'
 
 import Text from './Text'
 import Icon from './Icon'

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { View } from 'react-native'
 import { Icon } from 'react-native-elements'
 import { NativeRouter, Route, Link, BackButton } from 'react-router-native'
-import styled from 'styled-components'
+import styled from 'styled-components/native'
 
 import NAVIGATION_ITEMS from './navigationItems'
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { object } from 'prop-types'
 import { Text, List, ListItem } from 'react-native-elements'
-import styled from 'styled-components'
+import styled from 'styled-components/native'
 
 import EMPLOYEE_LIST from '../employeeList'
 

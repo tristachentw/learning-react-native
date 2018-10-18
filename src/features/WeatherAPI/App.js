@@ -4,7 +4,7 @@ import { SearchBar } from 'react-native-elements'
 import { injectIntl, intlShape } from 'react-intl'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
+import styled from 'styled-components/native'
 
 import { convertTimestamp } from '@root/utils/date'
 import { WEATHER_ICON_PATH_PREFIX } from './config'

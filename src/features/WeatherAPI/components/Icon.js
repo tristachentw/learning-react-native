@@ -1,5 +1,5 @@
 import { Icon } from 'react-native-elements'
-import styled, { withTheme } from 'styled-components'
+import styled, { withTheme } from 'styled-components/native'
 
 const CustomIcon = styled(Icon).attrs({
   color: props => props.color || props.theme.primaryColor

@@ -1,4 +1,4 @@
-import styled, { withTheme } from 'styled-components'
+import styled, { withTheme } from 'styled-components/native'
 
 const CustomText = styled.Text`
   font-size: ${props => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, Icon } from 'react-native-elements'
-import styled from 'styled-components'
+import styled from 'styled-components/native'
 
 const StyledContainer = styled.View`
   flex: 1;

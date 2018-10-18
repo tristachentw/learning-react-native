@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { Header, Icon } from 'react-native-elements'
-import styled from 'styled-components'
+import styled from 'styled-components/native'
 
 const StyledContainer = styled(Header).attrs({
   backgroundColor: '#673ab7'
