@@ -13,7 +13,7 @@ Notes for learning React Native.
 ### UI
   - [x] Drop and drag list.
   - [x] Routing and navigation.
-  - [x] I18n by app setting or mobile local language setting.
+  - [x] I18n by app setting or mobile local language setting.
   - [ ] Oauth Login with Facebook and Google.
 
 ### Third Party API
