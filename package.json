@@ -7,7 +7,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "test:watch": "npm run test -- --watch",
-    "test:report": "jest --coverage"
+    "test:report": "jest --coverage",
+    "storybook": "storybook start"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,12 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.1.2",
+    "@storybook/addon-actions": "^4.0.0-rc.1",
+    "@storybook/addon-knobs": "^3.4.11",
+    "@storybook/addon-links": "^4.0.0-rc.1",
+    "@storybook/addon-ondevice-backgrounds": "^4.0.0-alpha.25",
+    "@storybook/addons": "^4.0.0-rc.1",
+    "@storybook/react-native": "^4.0.0-rc.1",
     "babel-jest": "23.6.0",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-styled-components": "^1.8.0",
