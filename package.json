@@ -8,6 +8,7 @@
     "test": "jest",
     "test:watch": "npm run test -- --watch",
     "test:report": "jest --coverage",
+    "prestorybook": "rnstl",
     "storybook": "storybook start"
   },
   "repository": {
@@ -69,6 +70,7 @@
     "os": "^0.1.1",
     "pre-commit": "^1.2.2",
     "react-dom": "^16.5.2",
+    "react-native-storybook-loader": "^1.8.0",
     "react-test-renderer": "16.5.0",
     "supports-color": "^5.5.0"
   },
@@ -78,5 +80,12 @@
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js"
+  },
+  "config": {
+    "react-native-storybook-loader": {
+      "searchDir": ["./src"],
+      "pattern": "**/*.stories.js",
+      "outputFile": "./storybook/storyLoader.js"
+    }
   }
 }

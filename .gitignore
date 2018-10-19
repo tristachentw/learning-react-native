@@ -35,7 +35,6 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
-coverage/
 
 # BUCK
 buck-out/
@@ -60,3 +59,7 @@ buck-out/
 .classpath
 .project
 .settings/
+
+# Project
+coverage/
+storyLoader.js
